@@ -17,8 +17,24 @@ internal class App : IApp
     public async Task RunAsync()
     {
         _logger.LogDebug("Starting application");
-        var userId = 42;
+
+        var userId = 41;
         Console.WriteLine($"Full name of user with ID {userId} is {await _service.GetFullNameByIdAsync(userId)}");
+
+        var age = 23;
+        Console.WriteLine($"First name of users with age {age} is {await _service.GetFirstNamesByAgeAsync(age)}");
+
+        Console.WriteLine("Age Gender statistics");
+        var stats = await _service.GetGenderStatisticsByAge();
+        foreach (var ageStat in stats)
+        {
+            Console.Write($"Age: {ageStat.Age}");
+            foreach(var gender in ageStat.GenderStats)
+            {
+                Console.Write($" {gender.Gender}: {gender.Count}");
+            }
+            Console.WriteLine();
+        }
         _logger.LogDebug("Closing application");
     }
 }
